@@ -5,6 +5,7 @@
   "main": "./lib/feedback.js",
   "scripts": {
     "build": "webpack; NODE_ENV=production webpack; node-sass src/feedback.scss -o dist; node-sass src/feedback.scss | cleancss -o dist/feedback.min.css; babel src --presets babel-preset-es2015 --out-dir lib",
+    "publish": "npm run build && npm publish",
     "start": "webpack-dev-server -v --hot --inline --content-base .",
     "test": "echo 'nothing yet'"
   },

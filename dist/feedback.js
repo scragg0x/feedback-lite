@@ -138,7 +138,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	      serverUrl: '',
 	      postBrowserInfo: true,
 	      postHtml: true,
-	      postUrl: true
+	      postUrl: true,
+	      html2canvas: window.html2canvas
 	    });
 
 	    this.body = document.querySelector('body');
@@ -238,7 +239,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    value: function screenshot() {
 	      var _this3 = this;
 
-	      html2canvas(this.body, {
+	      this.opts.html2canvas(this.body, {
 	        onrendered: function onrendered(canvas) {
 	          _this3.refs.previewImg.setAttribute('src', canvas.toDataURL());
 	          _this3.canvas = canvas;
@@ -248,7 +249,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }, {
 	    key: 'getButton',
 	    value: function getButton() {
-	      return '\n    <div id="feedback-btn-wrapper" data-html2canvas-ignore>\n      <a class="btn btn-default" id="feedback-btn">Feedback</a>\n    </div>\n    ';
+	      return '\n      <a class="btn btn-default" id="feedback-btn">Feedback</a>\n    ';
 	    }
 	  }, {
 	    key: 'getForm',
