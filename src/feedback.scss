@@ -1,8 +1,9 @@
 #feedback-wrapper {
-  position: fixed;
+  position: absolute;
   z-index: 10001;
   height: 100%;
   width: 100%;
+  bottom: 0;
 }
 
 #feedback-btn-wrapper {
@@ -12,8 +13,8 @@
 }
 
 #feedback-form {
-  bottom: 15px;
-  right: 15px;
+  bottom: 0;
+  right: 10px;
   position: absolute;
 
   width: 200px;
