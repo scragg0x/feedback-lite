@@ -40,6 +40,7 @@ class Feedback {
       postBrowserInfo: true,
       postHtml: true,
       postUrl: true,
+      html2canvas: window.html2canvas,
     });
 
     this.body = document.querySelector('body');
@@ -105,12 +106,12 @@ class Feedback {
   }
 
   screenshot() {
-    html2canvas(this.body, {
+    this.opts.html2canvas(this.body, {
       onrendered: (canvas) => {
         this.refs.previewImg.setAttribute('src', canvas.toDataURL());
         this.canvas = canvas;
       },
-    })
+    });
   }
 
   getButton() {
