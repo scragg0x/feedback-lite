@@ -164,6 +164,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }, {
 	    key: 'postData',
 	    value: function postData() {
+	      var _this = this;
+
 	      var data = {};
 	      if (this.opts.postBrowserInfo) {
 	        data.browser = {};
@@ -213,6 +215,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      if (this.opts.serverUrl) {
 	        this.server.post('', data).then(function () {
 	          // success
+	          _this.unmount();
 	          alert('Feedback submitted');
 	        }).catch(function (res) {
 	          // fail
@@ -225,24 +228,24 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }, {
 	    key: 'addHandlers',
 	    value: function addHandlers() {
-	      var _this = this;
+	      var _this2 = this;
 
 	      this.refs.submitBtn.addEventListener('click', function () {
-	        _this.postData();
+	        _this2.postData();
 	      });
 	      this.refs.closeBtn.addEventListener('click', function () {
-	        _this.unmount();
+	        _this2.unmount();
 	      });
 	    }
 	  }, {
 	    key: 'screenshot',
 	    value: function screenshot() {
-	      var _this2 = this;
+	      var _this3 = this;
 
 	      (0, _html2canvas2.default)(this.body, {
 	        onrendered: function onrendered(canvas) {
-	          _this2.refs.previewImg.setAttribute('src', canvas.toDataURL());
-	          _this2.canvas = canvas;
+	          _this3.refs.previewImg.setAttribute('src', canvas.toDataURL());
+	          _this3.canvas = canvas;
 	        }
 	      });
 	    }
@@ -264,10 +267,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }, {
 	    key: 'attach',
 	    value: function attach(el) {
-	      var _this3 = this;
+	      var _this4 = this;
 
 	      el.addEventListener('click', function () {
-	        _this3.mount();
+	        _this4.mount();
 	      });
 	    }
 	  }, {

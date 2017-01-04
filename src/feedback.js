@@ -85,6 +85,7 @@ class Feedback {
     if (this.opts.serverUrl) {
       this.server.post('', data).then(() => {
         // success
+        this.unmount();
         alert('Feedback submitted');
       }).catch((res) => {
         // fail
