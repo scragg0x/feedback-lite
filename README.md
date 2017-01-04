@@ -1,5 +1,5 @@
 Feedback Lite
-========
+=============
 
 Small feedback library inspired by https://github.com/ivoviz/feedback
 

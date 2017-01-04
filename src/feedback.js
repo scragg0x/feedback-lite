@@ -1,6 +1,5 @@
-/* globals document */
+/* globals document, html2canvas */
 import defaultsDeep from 'lodash.defaultsdeep';
-import html2canvas from 'html2canvas';
 
 // import './feedback.scss';
 
