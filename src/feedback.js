@@ -46,7 +46,7 @@ class Feedback {
     this.body = document.querySelector('body');
     this.refs = {};
     this.canvas = null;
-    this.server = LittleFetch(this.serverUrl);
+    this.server = LittleFetch(this.opts.serverUrl);
   }
 
   setRefs() {
