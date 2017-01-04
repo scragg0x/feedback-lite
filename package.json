@@ -2,9 +2,9 @@
   "name": "feedback-lite",
   "version": "0.1.0",
   "description": "Feedback Lite",
-  "main": "./es/feedback.js",
+  "main": "./lib/feedback.js",
   "scripts": {
-    "build": "webpack; NODE_ENV=production webpack; node-sass src/feedback.scss -o dist; node-sass src/feedback.scss | cleancss -o dist/feedback.min.css; babel src --presets babel-preset-es2015 --out-dir es",
+    "build": "webpack; NODE_ENV=production webpack; node-sass src/feedback.scss -o dist; node-sass src/feedback.scss | cleancss -o dist/feedback.min.css; babel src --presets babel-preset-es2015 --out-dir lib",
     "start": "webpack-dev-server -v --hot --inline --content-base .",
     "test": "echo 'nothing yet'"
   },
