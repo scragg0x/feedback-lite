@@ -10,6 +10,7 @@
   },
   "author": "Matthew Scragg",
   "license": "MIT",
+  "repository": "https://github.com/scragg0x/feedback-lite",
   "dependencies": {
     "html2canvas": "^0.5.0-beta4",
     "lodash.defaultsdeep": "^4.6.0"
