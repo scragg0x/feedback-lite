@@ -2,7 +2,7 @@
 import defaultsDeep from 'lodash.defaultsdeep';
 import html2canvas from 'html2canvas';
 
-import './feedback.scss';
+// import './feedback.scss';
 
 const LittleFetch = function(baseUrl) {
   return {
