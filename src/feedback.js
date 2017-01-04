@@ -115,9 +115,7 @@ class Feedback {
 
   getButton() {
     return `
-    <div id="feedback-btn-wrapper" data-html2canvas-ignore>
       <a class="btn btn-default" id="feedback-btn">Feedback</a>
-    </div>
     `;
   }
 
