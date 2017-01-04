@@ -1,0 +1,33 @@
+#feedback-wrapper {
+  position: fixed;
+  z-index: 10001;
+  height: 100%;
+  width: 100%;
+}
+
+#feedback-btn-wrapper {
+  bottom: 15px;
+  right: 15px;
+  position: absolute;
+}
+
+#feedback-form {
+  bottom: 15px;
+  right: 15px;
+  position: absolute;
+
+  width: 200px;
+
+  .panel {
+    margin-bottom: 0;
+
+    .close {
+      font-size: 26px;
+      line-height: 20px;
+    }
+  }
+}
+
+#feedback-preview-img {
+  width: 100%;
+}
