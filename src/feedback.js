@@ -56,10 +56,12 @@ class Feedback {
     this.refs.submitBtn = document.getElementById('feedback-submit-btn');
     this.refs.previewImg = document.getElementById('feedback-preview-img');
     this.refs.closeBtn = document.getElementById('feedback-close-btn');
+    this.refs.note = document.getElementById('feedback-note');
   }
 
   postData() {
     const data = {};
+    data.note = this.refs.note.value;
     if (this.opts.postBrowserInfo) {
       data.browser = {};
       ['appCodeName', 'appName', 'appVersion', 'cookieEnabled', 'onLine', 'platform', 'userAgent'].forEach((key) => {
@@ -134,8 +136,8 @@ class Feedback {
 
          <form>
           <div class="form-group">
-            <label for="feedback-comment">Comment</label>
-            <textarea class="form-control"></textarea>
+            <label for="feedback-note">Comment</label>
+            <textarea id="feedback-note" class="form-control"></textarea>
           </div>
           
           <input id="feedback-submit-btn" type="button" class="btn btn-default" value="Submit" />

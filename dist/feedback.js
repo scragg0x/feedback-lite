@@ -157,6 +157,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      this.refs.submitBtn = document.getElementById('feedback-submit-btn');
 	      this.refs.previewImg = document.getElementById('feedback-preview-img');
 	      this.refs.closeBtn = document.getElementById('feedback-close-btn');
+	      this.refs.note = document.getElementById('feedback-note');
 	    }
 	  }, {
 	    key: 'postData',
@@ -164,6 +165,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      var _this = this;
 
 	      var data = {};
+	      data.note = this.refs.note.value;
 	      if (this.opts.postBrowserInfo) {
 	        data.browser = {};
 	        ['appCodeName', 'appName', 'appVersion', 'cookieEnabled', 'onLine', 'platform', 'userAgent'].forEach(function (key) {
@@ -254,7 +256,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }, {
 	    key: 'getForm',
 	    value: function getForm() {
-	      return '\n     <div id="feedback-form" data-html2canvas-ignore>\n       <div class="panel panel-default">\n        <div class="panel-heading">Submit Feedback\n          <button id="feedback-close-btn" type="button" class="close" aria-label="Close">\n            <span aria-hidden="true">\xD7</span>\n          </button>\n        </div>\n        <div class="panel-body">\n         <div class="thumnbnail"><img id="feedback-preview-img"></div>\n\n         <form>\n          <div class="form-group">\n            <label for="feedback-comment">Comment</label>\n            <textarea class="form-control"></textarea>\n          </div>\n          \n          <input id="feedback-submit-btn" type="button" class="btn btn-default" value="Submit" />\n         </form>\n        </div>\n      </div>\n     </div>\n    ';
+	      return '\n     <div id="feedback-form" data-html2canvas-ignore>\n       <div class="panel panel-default">\n        <div class="panel-heading">Submit Feedback\n          <button id="feedback-close-btn" type="button" class="close" aria-label="Close">\n            <span aria-hidden="true">\xD7</span>\n          </button>\n        </div>\n        <div class="panel-body">\n         <div class="thumnbnail"><img id="feedback-preview-img"></div>\n\n         <form>\n          <div class="form-group">\n            <label for="feedback-note">Comment</label>\n            <textarea id="feedback-note" class="form-control"></textarea>\n          </div>\n          \n          <input id="feedback-submit-btn" type="button" class="btn btn-default" value="Submit" />\n         </form>\n        </div>\n      </div>\n     </div>\n    ';
 	    }
 	  }, {
 	    key: 'getWrapper',
