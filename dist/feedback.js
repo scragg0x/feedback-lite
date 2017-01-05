@@ -139,7 +139,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	      postBrowserInfo: true,
 	      postHtml: true,
 	      postUrl: true,
-	      html2canvas: window.html2canvas
+	      html2canvas: window.html2canvas,
+	      onSuccess: alert,
+	      onError: alert
 	    });
 
 	    this.body = document.querySelector('body');
@@ -215,10 +217,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	        this.server.post('', data).then(function () {
 	          // success
 	          _this.unmount();
-	          alert('Feedback submitted');
+	          _this.opts.onSuccess('Feedback submitted');
 	        }).catch(function (res) {
 	          // fail
-	          alert('Error sending feedback');
+	          _this.opts.onError('Error sending feedback');
 	        });
 	      } else {
 	        console.log(data);

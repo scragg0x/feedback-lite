@@ -41,6 +41,8 @@ class Feedback {
       postHtml: true,
       postUrl: true,
       html2canvas: window.html2canvas,
+      onSuccess: alert,
+      onError: alert,
     });
 
     this.body = document.querySelector('body');
@@ -88,10 +90,10 @@ class Feedback {
       this.server.post('', data).then(() => {
         // success
         this.unmount();
-        alert('Feedback submitted');
+        this.opts.onSuccess('Feedback submitted');
       }).catch((res) => {
         // fail
-        alert('Error sending feedback');
+        this.opts.onError('Error sending feedback');
       });
     } else {
       console.log(data);
