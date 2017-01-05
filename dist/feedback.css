@@ -3,7 +3,8 @@
   z-index: 10001;
   height: 100%;
   width: 100%;
-  bottom: 0; }
+  bottom: 0;
+  overflow: hidden; }
 
 #feedback-btn-wrapper {
   bottom: 15px;
