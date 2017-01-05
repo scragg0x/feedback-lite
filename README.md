@@ -23,8 +23,6 @@ Use `feedback.showButton` to render a button or attach to your own with `feedbac
 ### Options
 
 `onSubmit` <Function> Callback that receives feedback data object
-`onSuccess` <Function> Called on success
-`onError` <Function> Called on error
 `html2canvas` <Object> Pass html2canvas object. Default: `window.html2canvas`
 `includeBrowserInfo`: <Bool> Default: true
 `includeUrl`: <Bool> Default: true
@@ -50,3 +48,7 @@ npm start
 // build dist
 npm run build
 ```
+
+### License
+
+MIT

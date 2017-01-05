@@ -22,8 +22,6 @@ class Feedback {
       includeUrl: true,
       html2canvas: window.html2canvas,
       onSubmit: console.log,
-      onSuccess: alert,
-      onError: alert,
     });
 
     this.body = document.body;

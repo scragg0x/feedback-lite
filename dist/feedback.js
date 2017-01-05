@@ -120,9 +120,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      includeHtml: true,
 	      includeUrl: true,
 	      html2canvas: window.html2canvas,
-	      onSubmit: console.log,
-	      onSuccess: alert,
-	      onError: alert
+	      onSubmit: console.log
 	    });
 
 	    this.body = document.body;
