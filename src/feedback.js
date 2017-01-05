@@ -26,7 +26,12 @@ class Feedback {
 
     this.body = document.body;
     this.refs = {};
-    this.canvas = null;
+    this.ssCanvas = null;
+
+    this.clickX = [];
+    this.clickY = [];
+    this.clickDrag = [];
+    this.painting = false;
   }
 
   setRefs() {
@@ -37,6 +42,12 @@ class Feedback {
     this.refs.previewImg = document.getElementById('feedback-preview-img');
     this.refs.closeBtn = document.getElementById('feedback-close-btn');
     this.refs.note = document.getElementById('feedback-note');
+    this.refs.canvas = document.getElementById('feedback-canvas');
+
+    this.refs.canvas.height = window.innerHeight;
+    this.refs.canvas.width = window.innerWidth;
+
+    this.context = this.refs.canvas.getContext('2d');
   }
 
   submitData() {
@@ -62,8 +73,8 @@ class Feedback {
       data.html = document.querySelector('html').innerHTML;
     }
 
-    if (this.canvas) {
-      data.img = this.canvas.toDataURL();
+    if (this.ssCanvas) {
+      data.img = this.ssCanvas.toDataURL();
     }
 
     this.opts.onSubmit(data);
@@ -77,6 +88,54 @@ class Feedback {
     this.refs.closeBtn.addEventListener('click', () => {
       this.unmount();
     });
+
+    this.refs.canvas.addEventListener('mousedown', (e) => {
+      this.painting = true;
+      this.addClick(e.pageX, e.pageY);
+
+      this.redraw();
+    });
+
+    this.refs.canvas.addEventListener('mousemove', (e) => {
+      if (this.painting) {
+        this.addClick(e.pageX, e.pageY, true);
+        this.redraw();
+      }
+    });
+
+    ['mouseup', 'mouseleave'].forEach((ev) => {
+      this.refs.canvas.addEventListener(ev, () => {
+        this.painting = false;
+        this.screenshot();
+      });
+    });
+  }
+
+  redraw() {
+    const { context, clickX, clickY, clickDrag } = this;
+    context.clearRect(0, 0, context.canvas.width, context.canvas.height); // Clears the canvas
+
+    context.strokeStyle = "red";
+    context.lineJoin = "round";
+    context.lineWidth = 5;
+
+    for(let i = 0; i < clickX.length; i++) {
+      context.beginPath();
+      if (clickDrag[i] && i){
+        context.moveTo(clickX[i - 1], clickY[i - 1]);
+      } else {
+        context.moveTo(clickX[i] - 1, clickY[i]);
+      }
+      context.lineTo(clickX[i], clickY[i]);
+      context.closePath();
+      context.stroke();
+    }
+  }
+
+  addClick(x, y, dragging) {
+    this.clickX.push(x);
+    this.clickY.push(y);
+    this.clickDrag.push(dragging);
   }
 
   screenshot() {
@@ -86,14 +145,14 @@ class Feedback {
     this.opts.html2canvas(this.body, {
       onrendered: (canvas) => {
         this.refs.previewImg.setAttribute('src', canvas.toDataURL());
-        this.canvas = canvas;
+        this.ssCanvas = canvas;
       },
     });
   }
 
   getButton() {
     return `
-      <a class="btn btn-default" id="feedback-btn">Feedback</a>
+      <a data-html2canvas-ignore class="btn btn-default" id="feedback-btn">Feedback</a>
     `;
   }
 
@@ -125,6 +184,7 @@ class Feedback {
 
   getWrapper() {
     return `<div>
+      <canvas id="feedback-canvas"></canvas>
       ${this.getForm()}
     </div>`;
   }
@@ -144,11 +204,15 @@ class Feedback {
     this.body.appendChild(dom.createNode('div', { id: 'feedback-wrapper' }, this.getWrapper()));
     this.setRefs();
     this.addHandlers();
-    this.screenshot();
+    // Add small delay to allow UI to settle
+    setTimeout(() => { this.screenshot(); }, 500);
   }
 
   unmount() {
     this.refs.wrapper.parentNode.removeChild(this.refs.wrapper);
+    this.clickX = [];
+    this.clickY = [];
+    this.clickDrag = [];
   }
 }
 

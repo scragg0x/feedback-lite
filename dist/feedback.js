@@ -125,7 +125,12 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	    this.body = document.body;
 	    this.refs = {};
-	    this.canvas = null;
+	    this.ssCanvas = null;
+
+	    this.clickX = [];
+	    this.clickY = [];
+	    this.clickDrag = [];
+	    this.painting = false;
 	  }
 
 	  _createClass(Feedback, [{
@@ -138,6 +143,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	      this.refs.previewImg = document.getElementById('feedback-preview-img');
 	      this.refs.closeBtn = document.getElementById('feedback-close-btn');
 	      this.refs.note = document.getElementById('feedback-note');
+	      this.refs.canvas = document.getElementById('feedback-canvas');
+
+	      this.refs.canvas.height = window.innerHeight;
+	      this.refs.canvas.width = window.innerWidth;
+
+	      this.context = this.refs.canvas.getContext('2d');
 	    }
 	  }, {
 	    key: 'submitData',
@@ -185,8 +196,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	        data.html = document.querySelector('html').innerHTML;
 	      }
 
-	      if (this.canvas) {
-	        data.img = this.canvas.toDataURL();
+	      if (this.ssCanvas) {
+	        data.img = this.ssCanvas.toDataURL();
 	      }
 
 	      this.opts.onSubmit(data);
@@ -203,6 +214,60 @@ return /******/ (function(modules) { // webpackBootstrap
 	      this.refs.closeBtn.addEventListener('click', function () {
 	        _this.unmount();
 	      });
+
+	      this.refs.canvas.addEventListener('mousedown', function (e) {
+	        _this.painting = true;
+	        _this.addClick(e.pageX, e.pageY);
+
+	        _this.redraw();
+	      });
+
+	      this.refs.canvas.addEventListener('mousemove', function (e) {
+	        if (_this.painting) {
+	          _this.addClick(e.pageX, e.pageY, true);
+	          _this.redraw();
+	        }
+	      });
+
+	      ['mouseup', 'mouseleave'].forEach(function (ev) {
+	        _this.refs.canvas.addEventListener(ev, function () {
+	          _this.painting = false;
+	          _this.screenshot();
+	        });
+	      });
+	    }
+	  }, {
+	    key: 'redraw',
+	    value: function redraw() {
+	      var context = this.context,
+	          clickX = this.clickX,
+	          clickY = this.clickY,
+	          clickDrag = this.clickDrag;
+
+	      context.clearRect(0, 0, context.canvas.width, context.canvas.height); // Clears the canvas
+
+	      context.strokeStyle = "red";
+	      context.lineJoin = "round";
+	      context.lineWidth = 5;
+
+	      for (var i = 0; i < clickX.length; i++) {
+	        context.beginPath();
+	        if (clickDrag[i] && i) {
+	          context.moveTo(clickX[i - 1], clickY[i - 1]);
+	        } else {
+	          context.moveTo(clickX[i] - 1, clickY[i]);
+	        }
+	        context.lineTo(clickX[i], clickY[i]);
+	        context.closePath();
+	        context.stroke();
+	      }
+	    }
+	  }, {
+	    key: 'addClick',
+	    value: function addClick(x, y, dragging) {
+	      this.clickX.push(x);
+	      this.clickY.push(y);
+	      this.clickDrag.push(dragging);
 	    }
 	  }, {
 	    key: 'screenshot',
@@ -215,14 +280,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	      this.opts.html2canvas(this.body, {
 	        onrendered: function onrendered(canvas) {
 	          _this2.refs.previewImg.setAttribute('src', canvas.toDataURL());
-	          _this2.canvas = canvas;
+	          _this2.ssCanvas = canvas;
 	        }
 	      });
 	    }
 	  }, {
 	    key: 'getButton',
 	    value: function getButton() {
-	      return '\n      <a class="btn btn-default" id="feedback-btn">Feedback</a>\n    ';
+	      return '\n      <a data-html2canvas-ignore class="btn btn-default" id="feedback-btn">Feedback</a>\n    ';
 	    }
 	  }, {
 	    key: 'getForm',
@@ -232,7 +297,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }, {
 	    key: 'getWrapper',
 	    value: function getWrapper() {
-	      return '<div>\n      ' + this.getForm() + '\n    </div>';
+	      return '<div>\n      <canvas id="feedback-canvas"></canvas>\n      ' + this.getForm() + '\n    </div>';
 	    }
 	  }, {
 	    key: 'attach',
@@ -252,15 +317,23 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }, {
 	    key: 'mount',
 	    value: function mount() {
+	      var _this4 = this;
+
 	      this.body.appendChild(dom.createNode('div', { id: 'feedback-wrapper' }, this.getWrapper()));
 	      this.setRefs();
 	      this.addHandlers();
-	      this.screenshot();
+	      // Add small delay to allow UI to settle
+	      setTimeout(function () {
+	        _this4.screenshot();
+	      }, 500);
 	    }
 	  }, {
 	    key: 'unmount',
 	    value: function unmount() {
 	      this.refs.wrapper.parentNode.removeChild(this.refs.wrapper);
+	      this.clickX = [];
+	      this.clickY = [];
+	      this.clickDrag = [];
 	    }
 	  }]);
 

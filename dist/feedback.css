@@ -23,3 +23,8 @@
 
 #feedback-preview-img {
   width: 100%; }
+
+#feedback-canvas {
+  cursor: crosshair;
+  position: absolute;
+  top: 0; }
