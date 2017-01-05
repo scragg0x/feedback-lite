@@ -2,11 +2,17 @@ Feedback Lite
 =============
 
 Small feedback library inspired by https://github.com/ivoviz/feedback
+Gets screenshot, url, browser info, html, and comments from user.
+
+Filesize minified/compressed: < 6KB
 
 ### Usage
 
 ```js
-  var feedback = new Feedback({ serverUrl: 'http://localhost'});
+  var feedback = new Feedback({ onSubmit: function(data) {
+    // do something
+    console.log(data);
+  } });
   feedback.showButton();
   // or
   feedback.attach(document.getElementById('my-feedback-btn'));
@@ -14,13 +20,17 @@ Small feedback library inspired by https://github.com/ivoviz/feedback
 
 Use `feedback.showButton` to render a button or attach to your own with `feedback.attach`.
 
-
 ### Options
 
-`serverUrl` (required) Post data to this URL.
+`onSubmit` <Function> Callback that receives feedback data object
+`onSuccess` <Function> Called on success
+`onError` <Function> Called on error
+`html2canvas` <Object> Pass html2canvas object. Default: `window.html2canvas`
+`includeBrowserInfo`: <Bool> Default: true
+`includeUrl`: <Bool> Default: true
+`includeHtml`: <Bool> Default: true
 
-
-### Post Data
+### Returned Data
 
 ```
 {

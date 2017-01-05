@@ -76,25 +76,6 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	// import './feedback.scss';
 
-	var LittleFetch = function LittleFetch(baseUrl) {
-	  return {
-	    request: function request(method, url, data) {
-	      return new Promise(function (resolve) {
-	        var xhr = new XMLHttpRequest();
-	        xhr.open(method, '' + baseUrl + url);
-	        xhr.setRequestHeader('Content-Type', 'application/json');
-	        xhr.onload = function () {
-	          resolve({ data: xhr.responseText });
-	        };
-	        xhr.send(JSON.stringify(data));
-	      });
-	    },
-	    post: function post(url, data) {
-	      return this.request('POST', url, data);
-	    }
-	  };
-	};
-
 	var dom = {
 	  createNode: function createNode(tag, attrs, html) {
 	    var node = document.createElement(tag);
@@ -135,19 +116,18 @@ return /******/ (function(modules) { // webpackBootstrap
 	    _classCallCheck(this, Feedback);
 
 	    this.opts = (0, _lodash2.default)(opts, {
-	      serverUrl: '',
-	      postBrowserInfo: true,
-	      postHtml: true,
-	      postUrl: true,
+	      includeBrowserInfo: true,
+	      includeHtml: true,
+	      includeUrl: true,
 	      html2canvas: window.html2canvas,
+	      onSubmit: console.log,
 	      onSuccess: alert,
 	      onError: alert
 	    });
 
-	    this.body = document.querySelector('body');
+	    this.body = document.body;
 	    this.refs = {};
 	    this.canvas = null;
-	    this.server = LittleFetch(this.opts.serverUrl);
 	  }
 
 	  _createClass(Feedback, [{
@@ -162,13 +142,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	      this.refs.note = document.getElementById('feedback-note');
 	    }
 	  }, {
-	    key: 'postData',
-	    value: function postData() {
-	      var _this = this;
-
+	    key: 'submitData',
+	    value: function submitData() {
 	      var data = {};
 	      data.note = this.refs.note.value;
-	      if (this.opts.postBrowserInfo) {
+	      if (this.opts.includeBrowserInfo) {
 	        data.browser = {};
 	        ['appCodeName', 'appName', 'appVersion', 'cookieEnabled', 'onLine', 'platform', 'userAgent'].forEach(function (key) {
 	          data.browser[key] = navigator[key];
@@ -199,54 +177,47 @@ return /******/ (function(modules) { // webpackBootstrap
 	            }
 	          }
 	        }
-
-	        ;
 	      }
 
-	      if (this.opts.postUrl) {
+	      if (this.opts.includeUrl) {
 	        data.url = document.URL;
 	      }
 
-	      if (this.opts.postHtml) {
+	      if (this.opts.includeHtml) {
 	        data.html = document.querySelector('html').innerHTML;
 	      }
 
-	      data.img = this.canvas.toDataURL();
-
-	      if (this.opts.serverUrl) {
-	        this.server.post('', data).then(function () {
-	          // success
-	          _this.unmount();
-	          _this.opts.onSuccess('Feedback submitted');
-	        }).catch(function (res) {
-	          // fail
-	          _this.opts.onError('Error sending feedback');
-	        });
-	      } else {
-	        console.log(data);
+	      if (this.canvas) {
+	        data.img = this.canvas.toDataURL();
 	      }
+
+	      this.opts.onSubmit(data);
+	      this.unmount();
 	    }
 	  }, {
 	    key: 'addHandlers',
 	    value: function addHandlers() {
-	      var _this2 = this;
+	      var _this = this;
 
 	      this.refs.submitBtn.addEventListener('click', function () {
-	        _this2.postData();
+	        _this.submitData();
 	      });
 	      this.refs.closeBtn.addEventListener('click', function () {
-	        _this2.unmount();
+	        _this.unmount();
 	      });
 	    }
 	  }, {
 	    key: 'screenshot',
 	    value: function screenshot() {
-	      var _this3 = this;
+	      var _this2 = this;
 
+	      if (!this.opts.html2canvas) {
+	        return;
+	      }
 	      this.opts.html2canvas(this.body, {
 	        onrendered: function onrendered(canvas) {
-	          _this3.refs.previewImg.setAttribute('src', canvas.toDataURL());
-	          _this3.canvas = canvas;
+	          _this2.refs.previewImg.setAttribute('src', canvas.toDataURL());
+	          _this2.canvas = canvas;
 	        }
 	      });
 	    }
@@ -268,10 +239,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }, {
 	    key: 'attach',
 	    value: function attach(el) {
-	      var _this4 = this;
+	      var _this3 = this;
 
 	      el.addEventListener('click', function () {
-	        _this4.mount();
+	        _this3.mount();
 	      });
 	    }
 	  }, {

@@ -3,25 +3,6 @@ import defaultsDeep from 'lodash.defaultsdeep';
 
 // import './feedback.scss';
 
-const LittleFetch = function(baseUrl) {
-  return {
-    request: function(method, url, data) {
-      return new Promise((resolve) => {
-        const xhr = new XMLHttpRequest();
-        xhr.open(method, `${baseUrl}${url}`);
-        xhr.setRequestHeader('Content-Type', 'application/json');
-        xhr.onload = () => {
-          resolve({ data: xhr.responseText });
-        };
-        xhr.send(JSON.stringify(data));
-      });
-    },
-    post: function(url, data) {
-      return this.request('POST', url, data);
-    }
-  }
-};
-
 const dom = {
   createNode(tag, attrs, html) {
     const node = document.createElement(tag);
@@ -36,19 +17,18 @@ const dom = {
 class Feedback {
   constructor(opts = {}) {
     this.opts = defaultsDeep(opts, {
-      serverUrl: '',
-      postBrowserInfo: true,
-      postHtml: true,
-      postUrl: true,
+      includeBrowserInfo: true,
+      includeHtml: true,
+      includeUrl: true,
       html2canvas: window.html2canvas,
+      onSubmit: console.log,
       onSuccess: alert,
       onError: alert,
     });
 
-    this.body = document.querySelector('body');
+    this.body = document.body;
     this.refs = {};
     this.canvas = null;
-    this.server = LittleFetch(this.opts.serverUrl);
   }
 
   setRefs() {
@@ -61,10 +41,10 @@ class Feedback {
     this.refs.note = document.getElementById('feedback-note');
   }
 
-  postData() {
+  submitData() {
     const data = {};
     data.note = this.refs.note.value;
-    if (this.opts.postBrowserInfo) {
+    if (this.opts.includeBrowserInfo) {
       data.browser = {};
       ['appCodeName', 'appName', 'appVersion', 'cookieEnabled', 'onLine', 'platform', 'userAgent'].forEach((key) => {
         data.browser[key] = navigator[key];
@@ -73,36 +53,28 @@ class Feedback {
       for (const key of Object.keys(navigator.plugins)) {
         const plugin = navigator.plugins[key];
         data.browser.plugins.push(plugin.name);
-      };
+      }
     }
 
-    if (this.opts.postUrl) {
+    if (this.opts.includeUrl) {
       data.url = document.URL;
     }
 
-    if (this.opts.postHtml) {
+    if (this.opts.includeHtml) {
       data.html = document.querySelector('html').innerHTML;
     }
 
-    data.img = this.canvas.toDataURL();
-
-    if (this.opts.serverUrl) {
-      this.server.post('', data).then(() => {
-        // success
-        this.unmount();
-        this.opts.onSuccess('Feedback submitted');
-      }).catch((res) => {
-        // fail
-        this.opts.onError('Error sending feedback');
-      });
-    } else {
-      console.log(data);
+    if (this.canvas) {
+      data.img = this.canvas.toDataURL();
     }
+
+    this.opts.onSubmit(data);
+    this.unmount();
   }
 
   addHandlers() {
     this.refs.submitBtn.addEventListener('click', () => {
-      this.postData();
+      this.submitData();
     });
     this.refs.closeBtn.addEventListener('click', () => {
       this.unmount();
@@ -110,6 +82,9 @@ class Feedback {
   }
 
   screenshot() {
+    if (!this.opts.html2canvas) {
+      return;
+    }
     this.opts.html2canvas(this.body, {
       onrendered: (canvas) => {
         this.refs.previewImg.setAttribute('src', canvas.toDataURL());
