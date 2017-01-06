@@ -25,11 +25,11 @@ Use `feedback.showButton` to render a button or attach to your own with `feedbac
 
 ### Options
 
-`onSubmit` <Function> Callback that receives feedback data object
-`html2canvas` <Object> Pass html2canvas object. Default: `window.html2canvas`
-`includeBrowserInfo`: <Bool> Default: true
-`includeUrl`: <Bool> Default: true
-`includeHtml`: <Bool> Default: true
+- `onSubmit` <Function> Callback that receives feedback data object
+- `html2canvas` <Object> Pass html2canvas object. Default: `window.html2canvas`
+- `includeBrowserInfo`: <Bool> Default: true
+- `includeUrl`: <Bool> Default: true
+- `includeHtml`: <Bool> Default: true
 
 ### Returned Data
 
