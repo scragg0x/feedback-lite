@@ -6,7 +6,7 @@ Gets screenshot, url, browser info, html, and comments from user.
 
 Filesize minified/compressed: ~6KB (html2canvas not included)
 
-![screenshot](https://lh3.googleusercontent.com/BhCGsryCSvVQmxXCQVuFg0X25PXwVNk2tk8A__kZn5_THzxnN2k96YnTb_N1EfHFAkvvz3BU=w1920-h1107-rw)
+![screenshot](https://lh5.googleusercontent.com/AS7wPmTWPyAlVq2Dw3OeAplhF829OOCcMCnNBLIl7NhCLaL7Gs7fqt3lZt2V3kHlqpKoEW_YsMflIjo=w1920-h1058-rw)
 
 ### Usage
 
