@@ -35,10 +35,11 @@ Use `feedback.showButton` to render a button or attach to your own with `feedbac
 
 ```
 {
-  browser <Object>
+  browser: <Object>
   html: <String>
   img: <String>
   url: <String>
+  note: <String>
 }
 ```
 
