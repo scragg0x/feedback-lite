@@ -142,11 +142,10 @@ class Feedback {
     if (!this.opts.html2canvas) {
       return;
     }
-    this.opts.html2canvas(this.body, {
-      onrendered: (canvas) => {
-        this.refs.previewImg.setAttribute('src', canvas.toDataURL());
-        this.ssCanvas = canvas;
-      },
+
+    this.opts.html2canvas(this.body).then((canvas) => {
+      this.refs.previewImg.setAttribute('src', canvas.toDataURL());
+      this.ssCanvas = canvas;
     });
   }
 
@@ -173,7 +172,7 @@ class Feedback {
             <label for="feedback-note">Comment</label>
             <textarea id="feedback-note" class="form-control"></textarea>
           </div>
-          
+
           <input id="feedback-submit-btn" type="button" class="btn btn-default" value="Submit" />
          </form>
         </div>
