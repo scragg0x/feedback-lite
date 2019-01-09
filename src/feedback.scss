@@ -3,20 +3,20 @@
   z-index: 10001;
   height: 100%;
   width: 100%;
-  bottom: 0;
+  top: 0;
   overflow: hidden;
 }
 
 #feedback-btn-wrapper {
   bottom: 15px;
   right: 15px;
-  position: absolute;
+  position: fixed;
 }
 
 #feedback-form {
   bottom: 0;
   right: 10px;
-  position: absolute;
+  position: fixed;
 
   width: 200px;
 

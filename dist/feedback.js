@@ -145,8 +145,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	      this.refs.note = document.getElementById('feedback-note');
 	      this.refs.canvas = document.getElementById('feedback-canvas');
 
-	      this.refs.canvas.height = window.innerHeight;
-	      this.refs.canvas.width = window.innerWidth;
+	      this.refs.canvas.height = document.body.scrollHeight;
+	      this.refs.canvas.width = document.body.scrollWidth;
+
+	      this.refs.wrapper.style.width = document.body.scrollWidth + 'px';
+	      this.refs.wrapper.style.height = document.body.scrollHeight + 'px';
+
+	      this.refs.canvas.style.width = document.body.scrollWidth + 'px';
+	      this.refs.canvas.style.height = document.body.scrollHeight + 'px';
 
 	      this.context = this.refs.canvas.getContext('2d');
 	    }
