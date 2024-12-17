@@ -14,7 +14,10 @@
   },
   "author": "Matthew Scragg",
   "license": "MIT",
-  "repository": "https://github.com/scragg0x/feedback-lite",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/scragg0x/feedback-lite.git"
+  },
   "peerDependencies": {
     "html2canvas": "^1"
   },
