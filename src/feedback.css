@@ -17,17 +17,16 @@
   bottom: 0;
   right: 10px;
   position: fixed;
-
   width: 200px;
+}
 
-  .panel {
-    margin-bottom: 0;
+#feedback-form .panel {
+  margin-bottom: 0;
+}
 
-    .close {
-      font-size: 26px;
-      line-height: 20px;
-    }
-  }
+#feedback-form .panel .close {
+  font-size: 26px;
+  line-height: 20px;
 }
 
 #feedback-preview-img {

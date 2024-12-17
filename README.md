@@ -1,5 +1,4 @@
-Feedback Lite
-=============
+# Feedback Lite
 
 Small feedback library inspired by https://github.com/ivoviz/feedback
 Gets screenshot, url, browser info, html, and comments from user.
@@ -11,16 +10,23 @@ Filesize minified/compressed: ~6KB (html2canvas not included)
 ### Usage
 
 ```html
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.5.0-beta4/html2canvas.min.js"></script>
-  <script>
-  var feedback = new Feedback({ onSubmit: function(data) {
-    // do something
-    console.log(data);
-  } });
+<script
+  src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"
+  integrity="sha512-BNaRQnYJYiPSqHHDb58B0yaPfCu+Wgds8Gp/gU33kqBtgNS4tSPHuGibyoeqMV/TJlSKda6FXzoEyYGjTe+vXA=="
+  crossorigin="anonymous"
+  referrerpolicy="no-referrer"
+></script>
+<script>
+  var feedback = new Feedback({
+    onSubmit: function (data) {
+      // do something
+      console.log(data);
+    },
+  });
   feedback.showButton();
   // or
   // feedback.attach(document.getElementById('my-feedback-btn'));
-  </script>
+</script>
 ```
 
 Use `feedback.showButton` to render a button or attach to your own with `feedback.attach`.
@@ -35,24 +41,23 @@ Use `feedback.showButton` to render a button or attach to your own with `feedbac
 
 ### Returned Data
 
-```
-{
-  browser: <Object>
-  html: <String>
-  img: <String>
-  url: <String>
-  note: <String>
+```typescript
+interface FeedbackData {
+  browser: Record<string, any>;
+  html: string;
+  img: string;
+  url: string;
+  note: string;
 }
 ```
 
-### Development
+### Test / Demo
 
 ```
-npm install
-// run weback dev server
-npm start
-// build dist
-npm run build
+pnpm install
+pnpm build
+npm i -g http-server
+http-server .
 ```
 
 ### License
